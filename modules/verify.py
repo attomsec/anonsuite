@@ -2,6 +2,7 @@ import os
 import subprocess
 import modules.func
 import modules.auto_install
+import modules.run_session
 
 # Função para verificar se o firejail está instalado
 

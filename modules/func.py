@@ -2,6 +2,7 @@ import random
 import json
 import subprocess
 import modules.macchanger
+import modules.run_session
 import modules.TorRamJail, modules.verify
 
 def continue_key():
@@ -17,28 +18,70 @@ def show_menu():
             data = json.load(f)
 
         subprocess.run(f"clear")
+        
         presentation()
+        
         print("versão:" ,data['version'])
         print("autor:", data["author"]["name"])
+        
         print("\nMenu:\n")
-        print("1. Executar Tor Browser isolado sem áudio")
-        print("2. Executar Tor Browser isolado com áudio (menos seguro)")
-        print("3. Substituir MAC do dispositivo")
+        
+        print("Tor Browser:")
+        print(51*"-")
+        print("1. Run Tor Browser isolated (no audio)")
+        print("2. Run Tor Browser isolated with audio (less safe)")
+        print(51*"-")
+        
+        print("\nMac Spoofing:")
+        print(51*"-")
+        print("3. Change device MAC address")
+        print(51*"-")
+
+        print("\nSecure communication:")
+        print(51*"-")
+        print("4. Run Session App fully isolated (amnesia mode)")
+        print(51*"-")
+
         print("\n0. Sair")
         
-        opcao = input("\nEscolha uma opção: ").strip()
+        opcao = input("\nconsole: ").strip()
         
         if opcao == "1" or opcao == "2":
             modules.TorRamJail.tor_script_exec(opcao)
         elif opcao == "3":
-            modules.macchanger.change_mac()                    
+            modules.macchanger.change_mac()
+        elif opcao == "4":
+            modules.run_session.session_script_exec()
+                        
         elif opcao == "0":
             subprocess.run(f"clear")
-            print("Saindo...")
+            print("Exiting...")
             clean_bash()
             break
         else:
-            print("Opção inválida. Tente novamente.")
+            print("Invalid option. Try again.")
+
+def clean_memory():
+    subprocess.run(f"clear", shell=True)
+    print("Cleaning shared memory (ram, failsafe)...")
+    print("\n")
+    subprocess.run("rm -rf /dev/shm/tor-browser/", shell=True)
+    print("Status: Clean")
+
+def command_exec(comando):
+
+    try:
+        subprocess.run(comando, check=True, shell=True)
+    except subprocess.CalledProcessError as e:
+        print(f"{e}")
+        print("\nPressione uma tecla para continuar...")
+        input()
+
+def clean_bash():
+
+    print("\nCleaning bash_history file")
+    subprocess.run("echo -n > ~/.bash_history", shell=True)
+    print("\nStatus: bash_history file cleaned\n")
 
 def presentation():
 
@@ -127,25 +170,3 @@ P    P P    P   "sss"   P    P ` ss'    "sss"   P     P     P sSSss
     random.shuffle(lista)
     bem_vindo = random.choice(lista)
     print(bem_vindo)
-
-def clean_memory():
-    subprocess.run(f"clear", shell=True)
-    print("Limpando memória compartilhada (ram, failsafe)...")
-    print("\n")
-    subprocess.run("rm -rf /dev/shm/tor-browser/", shell=True)
-    print("Status: Limpo")
-
-def command_exec(comando):
-
-    try:
-        subprocess.run(comando, check=True, shell=True)
-    except subprocess.CalledProcessError as e:
-        print(f"{e}")
-        print("\nPressione uma tecla para continuar...")
-        input()
-
-def clean_bash():
-
-    print("\nLimpando histórico de comandos do bash")
-    subprocess.run("echo -n > ~/.bash_history", shell=True)
-    print("\nStatus: Histórico bash limpo\n")
