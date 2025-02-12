@@ -1,10 +1,10 @@
 import time
-import random
+# import random
 import json
 import subprocess
 import modules.macchanger
 import modules.run_session
-import modules.TorRamJail, modules.verify
+import modules.TorRamJail
 import signal
 
 def continue_key():
@@ -23,58 +23,57 @@ def secure_exit(signal, frame):
 
 signal.signal(signal.SIGINT, secure_exit)
 
-def show_menu():
+def show_menu():    
+
+    with open('modules/info.json') as f:
+        data = json.load(f)
     
-    
-    while True:        
+    subprocess.run(f"clear")
+        
+    presentation()
+        
+    print('\033[1;32m' + "versão:" ,data['version'] + 20*" " + "autor:", data["author"]["name"])
+    # print("autor:", data["author"]["name"])
+        
+    print('\033[1;97m' + "\nMenu:\n")
+        
+    print("Tor Browser:")
+    print(51*"-")
+    print("1. Run Tor Browser isolated (no audio)")
+    print("2. Run Tor Browser isolated with audio (less safe)")
+    print(51*"-")
+        
+    print("\nMac Spoofing:")
+    print(51*"-")
+    print("3. Change device MAC address")
+    print(51*"-")
 
-        with open('modules/info.json') as f:
-            data = json.load(f)
+    print("\nSecure communication:")
+    print(51*"-")
+    print("4. Run Session App fully isolated (amnesia mode)")
+    print(51*"-")
 
-        subprocess.run(f"clear")
-        
-        presentation()
-        
-        print('\033[1;32m' + "versão:" ,data['version'] + 20*" " + "autor:", data["author"]["name"])
-        # print("autor:", data["author"]["name"])
-        
-        print('\033[1;97m' + "\nMenu:\n")
-        
-        print("Tor Browser:")
-        print(51*"-")
-        print("1. Run Tor Browser isolated (no audio)")
-        print("2. Run Tor Browser isolated with audio (less safe)")
-        print(51*"-")
-        
-        print("\nMac Spoofing:")
-        print(51*"-")
-        print("3. Change device MAC address")
-        print(51*"-")
+    print("\n0. Sair")
 
-        print("\nSecure communication:")
-        print(51*"-")
-        print("4. Run Session App fully isolated (amnesia mode)")
-        print(51*"-")
+def cmd_console():
 
-        print("\n0. Sair")
+    opcao = input('\033[1;33m' + "\nconsole: " + '\033[1;97m').strip()
         
-        opcao = input('\033[1;33m' + "\nconsole: " + '\033[1;97m').strip()
-        
-        if opcao == "1" or opcao == "2":
+    if opcao == "1" or opcao == "2":
             modules.TorRamJail.tor_script_exec(opcao)
-        elif opcao == "3":
+    elif opcao == "3":
             modules.macchanger.change_mac()
-        elif opcao == "4":
+    elif opcao == "4":
             modules.run_session.session_script_exec()
-                        
-        elif opcao == "0":
-            subprocess.run(f"clear")
-            print("Exiting...")
-            clean_bash()
-            break
-        else:
-            print("Invalid option. Try again.")
-            time.sleep(2)
+    
+    elif opcao == "0" or opcao == "exit":
+        subprocess.run(f"clear")
+        print("Exiting...")
+        clean_bash()
+
+    else:
+        print("\nInvalid option. Try again.")
+        time.sleep(2)
 
 def clean_memory():
     subprocess.run(f"clear", shell=True)
@@ -92,7 +91,7 @@ def command_exec(comando):
         print("\nPressione uma tecla para continuar...")
         input()
 
-def clean_bash(signal, frame):
+def clean_bash():
 
     print("\nCleaning bash_history file")
     subprocess.run("echo -n > ~/.bash_history", shell=True)
