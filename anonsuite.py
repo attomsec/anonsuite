@@ -3,41 +3,16 @@ from modules import TorRamJail
 from modules import func
 import subprocess
 from modules import verify
+from time import sleep
 
 def main():
 
-    subprocess.run(f"clear", shell=True)
+    subprocess.run("clear", shell=True)
+    print("Initializing... \n")
+    print('\033[1;33m' + "Aviso: "+ '\033[1;97m' + "Instale todas as dependências necessárias através do arquivo 'install_dependencies.sh' !!!")
+    print("\nBem-Vindo ao " + '\033[1;32m' + "AnonSuite" + '\033[1;90m' + "\n\n\n\nstay anonymous...")
+    sleep(8)
 
-    # Verifica se o Firejail está instalado
-
-    if not verify.verify_firejail_install():
-
-        # Caso não esteja instalado, tenta instalar
-        print("Firejail não está instalado.")
-        auto_install.install_firejail()
-
-    else:
-
-        print("Firejail está instalado.")
-    
-    # Verifica se o SELinux está instalado e habillitado
-
-    print("\nVerificando status do SELinux...")
-    print(verify.verify_selinux_install())
-
-    if not verify.verify_macchanger_install():
-
-        print("Macchanger não está instalado.")
-        auto_install.install_macchanger()
-    else:
-        print("Macchanger está instalado.")
-    
-    func.continue_key()
-
-    # Verifica se o wget está instalado
-
-
-    # Exibe o menu de opções após a instalação (ou verificação de instalação) do firejail
     func.show_menu()
 
 if __name__ == "__main__":

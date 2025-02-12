@@ -1,18 +1,32 @@
+import time
 import random
 import json
 import subprocess
 import modules.macchanger
 import modules.run_session
 import modules.TorRamJail, modules.verify
+import signal
 
 def continue_key():
 
     print("\nPressione uma tecla para continuar...")
     input()
 
-def show_menu():
+def secure_exit(signal, frame):
 
-    while True:
+    subprocess.run(f"clear")
+    print("Ctrl + C detected. Exiting...")
+    print('\033[1;31m' + "\nCleaning bash_history file")
+    subprocess.run("echo -n > ~/.bash_history", shell=True)
+    print('\033[1;33m' + "\nStatus: "+ '\033[1;32m' + "bash_history file cleaned\n")
+    exit(0)
+
+signal.signal(signal.SIGINT, secure_exit)
+
+def show_menu():
+    
+    
+    while True:        
 
         with open('modules/info.json') as f:
             data = json.load(f)
@@ -21,10 +35,10 @@ def show_menu():
         
         presentation()
         
-        print("versão:" ,data['version'])
-        print("autor:", data["author"]["name"])
+        print('\033[1;32m' + "versão:" ,data['version'] + 20*" " + "autor:", data["author"]["name"])
+        # print("autor:", data["author"]["name"])
         
-        print("\nMenu:\n")
+        print('\033[1;97m' + "\nMenu:\n")
         
         print("Tor Browser:")
         print(51*"-")
@@ -44,7 +58,7 @@ def show_menu():
 
         print("\n0. Sair")
         
-        opcao = input("\nconsole: ").strip()
+        opcao = input('\033[1;33m' + "\nconsole: " + '\033[1;97m').strip()
         
         if opcao == "1" or opcao == "2":
             modules.TorRamJail.tor_script_exec(opcao)
@@ -60,6 +74,7 @@ def show_menu():
             break
         else:
             print("Invalid option. Try again.")
+            time.sleep(2)
 
 def clean_memory():
     subprocess.run(f"clear", shell=True)
@@ -77,11 +92,12 @@ def command_exec(comando):
         print("\nPressione uma tecla para continuar...")
         input()
 
-def clean_bash():
+def clean_bash(signal, frame):
 
     print("\nCleaning bash_history file")
     subprocess.run("echo -n > ~/.bash_history", shell=True)
     print("\nStatus: bash_history file cleaned\n")
+    exit(0)
 
 def presentation():
 
@@ -114,26 +130,26 @@ def presentation():
 # (__)(__)(_)\_)(_____)(_)\_)(___/(______)(____) (__) (____)
 # """)
 
-    str4 = str('\033[1;32m'+"""
-  ____  ____    ___   ____   _____ __ __  ____  ______    ___ 
- /    ||    \  /   \ |    \ / ___/|  |  ||    ||      |  /  _]
-|  o  ||  _  ||     ||  _  (   \_ |  |  | |  | |      | /  [_ 
-|     ||  |  ||  O  ||  |  |\__  ||  |  | |  | |_|  |_||    _]
-|  _  ||  |  ||     ||  |  |/  \ ||  :  | |  |   |  |  |   [_ 
-|  |  ||  |  ||     ||  |  |\    ||     | |  |   |  |  |     |
-|__|__||__|__| \___/ |__|__| \___| \__,_||____|  |__|  |_____|
-""")
+#     str4 = str('\033[1;32m'+"""
+#   ____  ____    ___   ____   _____ __ __  ____  ______    ___ 
+#  /    ||    \  /   \ |    \ / ___/|  |  ||    ||      |  /  _]
+# |  o  ||  _  ||     ||  _  (   \_ |  |  | |  | |      | /  [_ 
+# |     ||  |  ||  O  ||  |  |\__  ||  |  | |  | |_|  |_||    _]
+# |  _  ||  |  ||     ||  |  |/  \ ||  :  | |  |   |  |  |   [_ 
+# |  |  ||  |  ||     ||  |  |\    ||     | |  |   |  |  |     |
+# |__|__||__|__| \___/ |__|__| \___| \__,_||____|  |__|  |_____|
+# """)
 
-    str5 = str('\033[1;32m'+"""
-d s.   d s  b   sSSSs   d s  b   sss. d       b d sss sssss d sss   
-S  ~O  S  S S  S     S  S  S S d      S       S S     S     S       
-S   `b S   SS S       S S   SS Y      S       S S     S     S       
-S sSSO S    S S       S S    S   ss.  S       S S     S     S sSSs  
-S    O S    S S       S S    S      b S       S S     S     S       
-S    O S    S  S     S  S    S      P  S     S  S     S     S       
-P    P P    P   "sss"   P    P ` ss'    "sss"   P     P     P sSSss 
+#     str5 = str('\033[1;32m'+"""
+# d s.   d s  b   sSSSs   d s  b   sss. d       b d sss sssss d sss   
+# S  ~O  S  S S  S     S  S  S S d      S       S S     S     S       
+# S   `b S   SS S       S S   SS Y      S       S S     S     S       
+# S sSSO S    S S       S S    S   ss.  S       S S     S     S sSSs  
+# S    O S    S S       S S    S      b S       S S     S     S       
+# S    O S    S  S     S  S    S      P  S     S  S     S     S       
+# P    P P    P   "sss"   P    P ` ss'    "sss"   P     P     P sSSss 
                                                                     
-""")
+# """)
 
     # str6 = str('\033[1;32m'+"""01000001 01101110 01101111 01101110 01010011 01110101 01101001 01110100 01100101\n""")
 
@@ -144,29 +160,24 @@ P    P P    P   "sss"   P    P ` ss'    "sss"   P     P     P sSSss
 # """)
 
     str8 = str('\033[1;32m'+"""
- ▄▄▄       ███▄    █  ▒█████   ███▄    █   ██████  █    ██  ██▓▄▄▄█████▓▓█████ 
-▒████▄     ██ ▀█   █ ▒██▒  ██▒ ██ ▀█   █ ▒██    ▒  ██  ▓██▒▓██▒▓  ██▒ ▓▒▓█   ▀ 
-▒██  ▀█▄  ▓██  ▀█ ██▒▒██░  ██▒▓██  ▀█ ██▒░ ▓██▄   ▓██  ▒██░▒██▒▒ ▓██░ ▒░▒███   
-░██▄▄▄▄██ ▓██▒  ▐▌██▒▒██   ██░▓██▒  ▐▌██▒  ▒   ██▒▓▓█  ░██░░██░░ ▓██▓ ░ ▒▓█  ▄ 
- ▓█   ▓██▒▒██░   ▓██░░ ████▓▒░▒██░   ▓██░▒██████▒▒▒▒█████▓ ░██░  ▒██▒ ░ ░▒████▒
- ▒▒   ▓▒█░░ ▒░   ▒ ▒ ░ ▒░▒░▒░ ░ ▒░   ▒ ▒ ▒ ▒▓▒ ▒ ░░▒▓▒ ▒ ▒ ░▓    ▒ ░░   ░░ ▒░ ░
-  ▒   ▒▒ ░░ ░░   ░ ▒░  ░ ▒ ▒░ ░ ░░   ░ ▒░░ ░▒  ░ ░░░▒░ ░ ░  ▒ ░    ░     ░ ░  ░
-  ░   ▒      ░   ░ ░ ░ ░ ░ ▒     ░   ░ ░ ░  ░  ░   ░░░ ░ ░  ▒ ░  ░         ░   
-      ░  ░         ░     ░ ░           ░       ░     ░      ░              ░  ░
-                                                                               
-""")
+ ▗▄▖ ▗▖  ▗▖ ▗▄▖ ▗▖  ▗▖ ▗▄▄▖▗▖ ▗▖▗▄▄▄▖▗▄▄▄▖▗▄▄▄▖
+▐▌ ▐▌▐▛▚▖▐▌▐▌ ▐▌▐▛▚▖▐▌▐▌   ▐▌ ▐▌  █    █  ▐▌   
+▐▛▀▜▌▐▌ ▝▜▌▐▌ ▐▌▐▌ ▝▜▌ ▝▀▚▖▐▌ ▐▌  █    █  ▐▛▀▀▘
+▐▌ ▐▌▐▌  ▐▌▝▚▄▞▘▐▌  ▐▌▗▄▄▞▘▝▚▄▞▘▗▄█▄▖  █  ▐▙▄▄▖
+               """)
 
-    str9 = str('\033[1;32m'+"""
- █████  ███    ██  ██████  ███    ██ ███████ ██    ██ ██ ████████ ███████ 
-██   ██ ████   ██ ██    ██ ████   ██ ██      ██    ██ ██    ██    ██      
-███████ ██ ██  ██ ██    ██ ██ ██  ██ ███████ ██    ██ ██    ██    █████   
-██   ██ ██  ██ ██ ██    ██ ██  ██ ██      ██ ██    ██ ██    ██    ██      
-██   ██ ██   ████  ██████  ██   ████ ███████  ██████  ██    ██    ███████ 
+#     str9 = str('\033[1;32m'+"""
+#  █████  ███    ██  ██████  ███    ██ ███████ ██    ██ ██ ████████ ███████ 
+# ██   ██ ████   ██ ██    ██ ████   ██ ██      ██    ██ ██    ██    ██      
+# ███████ ██ ██  ██ ██    ██ ██ ██  ██ ███████ ██    ██ ██    ██    █████   
+# ██   ██ ██  ██ ██ ██    ██ ██  ██ ██      ██ ██    ██ ██    ██    ██      
+# ██   ██ ██   ████  ██████  ██   ████ ███████  ██████  ██    ██    ███████ 
                                                                           
                                                                           
-""")
+# """)
 
-    lista = [str4, str5, str8, str9]
-    random.shuffle(lista)
-    bem_vindo = random.choice(lista)
-    print(bem_vindo)
+    # lista = [str8, str9]
+    # random.shuffle(lista)
+    # bem_vindo = random.choice(lista)
+    welcome = str8
+    print(welcome)
