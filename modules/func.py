@@ -1,5 +1,4 @@
 import time
-# import random
 import json
 import subprocess
 import modules.macchanger
@@ -32,32 +31,35 @@ def show_menu():
         
     presentation()
         
-    print('\033[1;32m' + "versão:" ,data['version'] + 20*" " + "autor:", data["author"]["name"])
-    # print("autor:", data["author"]["name"])
+    print('\033[0;32m' + "version:" ,data['version'] + 20*" " + "author:", data["author"]["name"])
         
-    print('\033[1;97m' + "\nMenu:\n")
+    print('\033[0;97m' + "\n---------------Choose one option-------------------\n")
         
-    print("Tor Browser:")
-    print(51*"-")
+    print('\033[0;32m' + "Tor Browser:"+'\033[0;97m')
     print("1. Run Tor Browser isolated (no audio)")
     print("2. Run Tor Browser isolated with audio (less safe)")
-    print(51*"-")
+
         
-    print("\nMac Spoofing:")
-    print(51*"-")
+    print('\033[0;32m' + "Mac Spoofing:"+'\033[0;97m')
+
     print("3. Change device MAC address")
-    print(51*"-")
 
-    print("\nSecure communication:")
-    print(51*"-")
+
+    print('\033[0;32m' + "Secure communication:"+'\033[0;97m')
+
     print("4. Run Session App fully isolated (amnesia mode)")
-    print(51*"-")
 
-    print("\n0. Sair")
+
+    print('\033[0;32m' + "Blind UFW"+'\033[0;97m')
+
+    print("5. Run script to make UFW more secure")
+
+    print("\n0. " + '\033[0;31m' + "Exit"+'\033[0;97m')
 
 def cmd_console():
 
-    opcao = input('\033[1;33m' + "\nconsole: " + '\033[1;97m').strip()
+    print(13*"----")
+    opcao = input('\033[1;33m' + "console: " + '\033[1;97m').strip()
         
     if opcao == "1" or opcao == "2":
             modules.TorRamJail.tor_script_exec(opcao)
@@ -65,7 +67,13 @@ def cmd_console():
             modules.macchanger.change_mac()
     elif opcao == "4":
             modules.run_session.session_script_exec()
-    
+    elif opcao == "5":
+            subprocess.run(f"clear")
+            print("AnonSuite is making UFW more secure. Please wait and follow the instructions ahead.")
+            time.sleep(2)
+            command = f"./modules/shell/blind_ufw.sh"
+            subprocess.run(command)
+
     elif opcao == "0" or opcao == "exit":
         subprocess.run(f"clear")
         print("Exiting...")
@@ -100,83 +108,12 @@ def clean_bash():
 
 def presentation():
 
-#     str1 = str('\033[1;32m'+"""
-#      **                                 ********         **   **          
-#     ****                               **//////         //   /**          
-#    **//**   *******   ******  ******* /**        **   ** ** ******  ***** 
-#   **  //** //**///** **////**//**///**/*********/**  /**/**///**/  **///**
-#  ********** /**  /**/**   /** /**  /**////////**/**  /**/**  /**  /*******
-# /**//////** /**  /**/**   /** /**  /**       /**/**  /**/**  /**  /**//// 
-# /**     /** ***  /**//******  ***  /** ******** //******/**  //** //******
-# //      // ///   //  //////  ///   // ////////   ////// //    //   ////// 
-# """)
-
-#     str2 = str('\033[1;32m'+"""
-#     #                          #####                        
-#    # #   #    #  ####  #    # #     # #    # # ##### ###### 
-#   #   #  ##   # #    # ##   # #       #    # #   #   #      
-#  #     # # #  # #    # # #  #  #####  #    # #   #   #####  
-#  ####### #  # # #    # #  # #       # #    # #   #   #      
-#  #     # #   ## #    # #   ## #     # #    # #   #   #      
-#  #     # #    #  ####  #    #  #####   ####  #   #   ###### 
-                                                            
-# """)
-
-#     str3 = str('\033[1;32m'+"""
-#    __    _  _  _____  _  _  ___  __  __  ____  ____  ____ 
-#   /__\  ( \( )(  _  )( \( )/ __)(  )(  )(_  _)(_  _)( ___)
-#  /(__)\  )  (  )(_)(  )  ( \__ \ )(__)(  _)(_   )(   )__) 
-# (__)(__)(_)\_)(_____)(_)\_)(___/(______)(____) (__) (____)
-# """)
-
-#     str4 = str('\033[1;32m'+"""
-#   ____  ____    ___   ____   _____ __ __  ____  ______    ___ 
-#  /    ||    \  /   \ |    \ / ___/|  |  ||    ||      |  /  _]
-# |  o  ||  _  ||     ||  _  (   \_ |  |  | |  | |      | /  [_ 
-# |     ||  |  ||  O  ||  |  |\__  ||  |  | |  | |_|  |_||    _]
-# |  _  ||  |  ||     ||  |  |/  \ ||  :  | |  |   |  |  |   [_ 
-# |  |  ||  |  ||     ||  |  |\    ||     | |  |   |  |  |     |
-# |__|__||__|__| \___/ |__|__| \___| \__,_||____|  |__|  |_____|
-# """)
-
-#     str5 = str('\033[1;32m'+"""
-# d s.   d s  b   sSSSs   d s  b   sss. d       b d sss sssss d sss   
-# S  ~O  S  S S  S     S  S  S S d      S       S S     S     S       
-# S   `b S   SS S       S S   SS Y      S       S S     S     S       
-# S sSSO S    S S       S S    S   ss.  S       S S     S     S sSSs  
-# S    O S    S S       S S    S      b S       S S     S     S       
-# S    O S    S  S     S  S    S      P  S     S  S     S     S       
-# P    P P    P   "sss"   P    P ` ss'    "sss"   P     P     P sSSss 
-                                                                    
-# """)
-
-    # str6 = str('\033[1;32m'+"""01000001 01101110 01101111 01101110 01010011 01110101 01101001 01110100 01100101\n""")
-
-#     str7 = str('\033[1;32m'+"""__   __ _   __   __ _  ____  _  _  __  ____  ____ 
-#  / _\ (  ( \ /  \ (  ( \/ ___)/ )( \(  )(_  _)(  __)
-# /    \/    /(  O )/    /\___ \) \/ ( )(   )(   ) _) 
-# \_/\_/\_)__) \__/ \_)__)(____/\____/(__) (__) (____)
-# """)
-
-    str8 = str('\033[1;32m'+"""
+    title = str('\033[0;97m'+"""
  ▗▄▖ ▗▖  ▗▖ ▗▄▖ ▗▖  ▗▖ ▗▄▄▖▗▖ ▗▖▗▄▄▄▖▗▄▄▄▖▗▄▄▄▖
 ▐▌ ▐▌▐▛▚▖▐▌▐▌ ▐▌▐▛▚▖▐▌▐▌   ▐▌ ▐▌  █    █  ▐▌   
 ▐▛▀▜▌▐▌ ▝▜▌▐▌ ▐▌▐▌ ▝▜▌ ▝▀▚▖▐▌ ▐▌  █    █  ▐▛▀▀▘
 ▐▌ ▐▌▐▌  ▐▌▝▚▄▞▘▐▌  ▐▌▗▄▄▞▘▝▚▄▞▘▗▄█▄▖  █  ▐▙▄▄▖
                """)
-
-#     str9 = str('\033[1;32m'+"""
-#  █████  ███    ██  ██████  ███    ██ ███████ ██    ██ ██ ████████ ███████ 
-# ██   ██ ████   ██ ██    ██ ████   ██ ██      ██    ██ ██    ██    ██      
-# ███████ ██ ██  ██ ██    ██ ██ ██  ██ ███████ ██    ██ ██    ██    █████   
-# ██   ██ ██  ██ ██ ██    ██ ██  ██ ██      ██ ██    ██ ██    ██    ██      
-# ██   ██ ██   ████  ██████  ██   ████ ███████  ██████  ██    ██    ███████ 
-                                                                          
-                                                                          
-# """)
-
-    # lista = [str8, str9]
-    # random.shuffle(lista)
-    # bem_vindo = random.choice(lista)
-    welcome = str8
+    
+    welcome = title
     print(welcome)

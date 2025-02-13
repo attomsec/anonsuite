@@ -6,7 +6,7 @@ import modules.func
 diretorio = os.path.expanduser("~/Downloads/tor-browser/")
 
 # Função para verificar se o diretório do tor-browser existe
-def checar_diretorio(diretorio, opcao):
+def check_directory(diretorio, opcao):
 
     if os.path.isdir(diretorio):
         subprocess.run(f"clear", shell=True)
@@ -118,30 +118,5 @@ def tor_script_exec(opcao):
 
     diretorio = os.path.expanduser("~/Downloads/tor-browser/")
 
-    # if opcao == "1":
-    checar_diretorio(diretorio, opcao)
-    # elif opcao == "2":
-        # checar_diretorio(diretorio)
+    check_directory(diretorio, opcao)
 
-
-# Função para instalar o Firejail dependendo da distribuição
-def install_firejail():
-
-    print("O firejail será instalado automaticamente. Para confirmar tecle Enter")
-    input()
-    subprocess.run(f"clear", shell=True)
-    distrib = platform.linux_distribution()[0].lower()
-    try:
-        if "debian" in distrib or "ubuntu" in distrib:
-            print("Instalando firejail para distribuições Debian/Ubuntu...")
-            subprocess.run(["sudo", "apt", "install", "firejail", "-y"], check=True)
-        elif "fedora" in distrib or "redhat" in distrib:
-            print("Instalando firejail para distribuições Fedora/RedHat...")
-            subprocess.run(["sudo", "dnf", "install", "firejail", "-y"], check=True)
-        elif "arch" in distrib:
-            print("Instalando firejail para distribuições Arch Linux...")
-            subprocess.run(["sudo", "pacman", "-S", "firejail", "-y"], check=True)
-        else:
-            print(f"Distribuição não reconhecida: {distrib}. Não é possível instalar firejail automaticamente.")
-    except subprocess.CalledProcessError as e:
-        print(f"Erro ao tentar instalar firejail: {e}")

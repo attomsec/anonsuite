@@ -3,22 +3,22 @@
 # Função para instalar pacotes no Ubuntu/Debian
 install_debian() {
     sudo apt update
-    sudo apt install -y firejail macchanger selinux-utils wget git
+    sudo apt install -y firejail macchanger selinux-utils wget git ufw iptables
 }
 
 # Função para instalar pacotes no CentOS/RHEL
 install_centos() {
-    sudo yum install -y firejail macchanger selinux-utils wget git
+    sudo yum install -y firejail macchanger selinux-utils wget git ufw iptables
 }
 
 # Função para instalar pacotes no Fedora
 install_fedora() {
-    sudo dnf install -y firejail macchanger selinux-utils wget git
+    sudo dnf install -y firejail macchanger selinux-utils wget git ufw iptables
 }
 
 # Função para instalar pacotes no Arch Linux
 install_arch() {
-    sudo pacman -Syu --noconfirm firejail macchanger selinux-utils wget git
+    sudo pacman -Syu --noconfirm firejail macchanger selinux-utils wget git ufw iptables
 }
 
 # Função para verificar a distro e chamar a função correspondente
