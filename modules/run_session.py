@@ -1,6 +1,7 @@
 import os
 import subprocess
-import modules.func
+import time
+import modules.functions
 
 def session_script_exec():
 
@@ -9,20 +10,35 @@ def session_script_exec():
 
 def run_session():
 
-    print("Warning: Session will run in amnesia mode. This means that once you close the app, everything will be permanently deleted! Make sure to back up your recovery key or you won't be able to recover your account (if needed)")
-    modules.func.continue_key()
+    print('\033[1;31m' + "Warning:" + '\033[0;33m' + " Session will run in amnesia mode. This means that once you close the app, everything will be permanently deleted! Make sure to back up your recovery key or you won't be able to recover your account (if needed)" + '\033[0;97m')
+    modules.functions.continue_key()
 
     print("Insert a never used different vendor MAC address to improve anonymity")
+    print('\033[1;90m' + "\nTip: You can generate a MAC address with AnonSuite. Check menu." + '\033[1;97m')
     mac = input("\nNew mac: ")
+    print(f"\nChosen MAC: {mac}\n")
+    print("Chosen MAC address: " + mac)
+    time.sleep(1)
+
     print("\nChoose network interface to be used by Firejail")
     interface = input("\nInterface: ")
-
-    command = f"firejail --noprofile --private --private-tmp --ipc-namespaces --nosound --novideo --net={interface} --mac={mac} --appimage ~/Downloads/session/session.AppImage"
-    modules.func.command_exec(command)
+    print("\nChosen interface: " + interface)
+    time.sleep(1)
 
     subprocess.run(f"clear", shell=True)
-    print("Session App killed. Contracted amnesia.")
-    modules.func.continue_key()
+
+    print("Executando Session App em modo amnésia na memória RAM em failsafe usando o comando:")
+    print(f"\nfirejail --noprofile --private --private-tmp --ipc-namespaces --nosound --novideo --net={interface} --mac={mac} --appimage ~/Downloads/session/session.AppImage")
+    print("\n")
+    print("Pressione enter para executar...")
+    input()
+
+    command = f"firejail --noprofile --private --private-tmp --ipc-namespaces --nosound --novideo --net={interface} --mac={mac} --appimage ~/Downloads/session/session.AppImage"
+    modules.functions.command_exec(command)
+
+    subprocess.run(f"clear", shell=True)
+    print("Session App " + '\033[1;31m' + "killed." + '\033[0;97m' + " Contracted amnesia.")
+    time.sleep(3)
 
 def check_directory(directory):
 

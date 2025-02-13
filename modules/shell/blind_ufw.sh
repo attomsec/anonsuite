@@ -1,6 +1,4 @@
-#!/bin/bash
-
-
+#!/bin/bash -p
 
 # Function to detect the distribution
 detect_distro() {

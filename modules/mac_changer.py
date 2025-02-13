@@ -1,6 +1,6 @@
 import os
 import subprocess
-import modules.func
+import modules.functions
 
 def change_mac():
     
@@ -18,6 +18,6 @@ def change_mac():
 
     change_command = f"sudo macchanger --mac={mac} {interface}"
     print("\n")
-    modules.func.command_exec(change_command)
+    modules.functions.command_exec(change_command)
     # except subprocess.CalledProcessError as e:
     #     print("Erro ao tentar substituir o mac: " + f"\n{e}")
