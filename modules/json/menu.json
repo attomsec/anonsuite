@@ -1,0 +1,32 @@
+[
+    {
+        "name": "Tor Browser",
+        "option": [
+            "1. Run Tor Browser isolated (no audio)",
+            "2. Run Tor Browser isolated with audio (less safe)"
+        ]
+    },
+
+    {
+        "name": "Mac Spoofing",
+        "option": [
+            "3. Change device MAC address",
+            "4. MAC Generator on isolated Mullvad Browser (Offline)"
+        ]
+    },
+
+    {
+        "name": "Secure Communication",
+        "option": ["5. Run Session App fully isolated (amnesia mode)"]
+    },
+    
+    {
+        "name": "Blind UFW",
+        "option": ["6. Run script to make UFW more secure"]
+    },
+
+    {
+        "name": "0. Exit",
+        "option": [""]
+    }
+]

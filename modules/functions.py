@@ -8,11 +8,13 @@ import modules.run_session
 import modules.tor_ram_jail
 import signal
 
+# Pausa e aguarda uma tecla ser pressionada
 def continue_key():
 
     print("\nPressione uma tecla para continuar...")
     input()
 
+# Quando detecta CTRL + C deleta o arquivo .bash_history e fecha o AnonSuite
 def secure_exit(signal, frame):
 
     subprocess.run(f"clear")
@@ -22,78 +24,70 @@ def secure_exit(signal, frame):
     print('\033[1;33m' + "\nStatus: "+ '\033[1;32m' + "bash_history file cleaned\n")
     exit(0)
 
+# Captura a combinação CTRL + C e executa a função 'secure_exit()'
 signal.signal(signal.SIGINT, secure_exit)
 
-def show_menu():    
+def show_menu():
 
-    with open('modules/json/info.json') as f:
-        data = json.load(f)
-    
-    subprocess.run(f"clear")
-        
+    # Abre o arquivo info.json
+    with open(f"modules/json/info.json") as info:
+        data = json.load(info)
+
+    # Limpa o terminal
+    subprocess.run("clear", shell=True)
+
+    # Exibe o banner, versão e author 
     presentation()
-        
-    print('\033[0;32m' + "version:" ,data['version'] + 20*" " + "author:", data["author"]["name"])
-        
-    print('\033[0;97m' + "\n---------------Choose one option-------------------\n")
-        
-    print('\033[0;32m' + "Tor Browser:"+'\033[0;97m')
-    print("1. Run Tor Browser isolated (no audio)")
-    print("2. Run Tor Browser isolated with audio (less safe)")
+    print('\n\033[0;32m' + "version:" ,data['version'] + 17*" " + "author:", data["author"]["name"])
+    print("")
 
-        
-    print('\033[0;32m' + "Mac Spoofing:"+'\033[0;97m')
+    # Carrega o arquivo menu.json e percorre os titulos e opções gerando o menu principal
+    with open(f"modules/json/menu.json") as menufile:
+        data = json.load(menufile)
+        for entry in data:
+            print(f"\n\033[0;32m{entry['name']}\033[0m")
+            for opt in entry['option']:
+                print(opt)
 
-    print("3. Change device MAC address")
-    print("4. MAC Generator on isolated Mullvad Browser (Offline)")
-
-
-    print('\033[0;32m' + "Secure communication:"+'\033[0;97m')
-
-    print("5. Run Session App fully isolated (amnesia mode)")
-
-
-    print('\033[0;32m' + "Blind UFW"+'\033[0;97m')
-
-    print("6. Run script to make UFW more secure")
-
-    print("\n0. " + '\033[0;31m' + "Exit"+'\033[0;97m')
-
+# Configuração do console                
 def cmd_console():
 
     print(13*"----")
-    opcao = input('\033[1;33m' + "cmd: " + '\033[0;97m').strip()
+    option = input('\033[1;33m' + "cmd: " + '\033[0;97m').strip()
         
-    if opcao == "1" or opcao == "2":
-            modules.tor_ram_jail.tor_script_exec(opcao)
-    elif opcao == "3":
+    if option == "1" or option == "2":
+            modules.tor_ram_jail.tor_script_exec(option)
+    elif option == "3":
             modules.mac_changer.change_mac()
-    elif opcao == "4":
+    elif option == "4":
             modules.mac_ram.mac_ram_script_exec()
-    elif opcao == "5":
+    elif option == "5":
             modules.run_session.session_script_exec()
-    elif opcao == "6":
+    elif option == "6":
             subprocess.run(f"clear")
             print("AnonSuite is making UFW more secure. Please wait and follow the instructions ahead.")
             time.sleep(2)
             command = f"./modules/shell/blind_ufw.sh"
             subprocess.run(command)
-    elif opcao == "0" or opcao == "exit":
+    elif option == "0" or option == "exit":
         subprocess.run(f"clear", shell=True)
         print("Exiting...")
         clean_bash()
-    elif opcao == "install dependencies":
+    elif option == "install dependencies":
          subprocess.run(f"clear", shell=True)
          print("Instalando dependencias... Necesário "+ '\033[0;31m' + "root" + '\033[0;97m' + " !!!\n")
          time.sleep(2)
          command = f"./modules/shell/install_dependencies.sh"
          command_exec(command)
          modules.functions.continue_key()
+    elif option == "help":
+         subprocess.run("less README.md", shell=True)
 
     else:
         print("\nInvalid option. Try again.")
         time.sleep(2)
 
+# Limpa a memória ram (arquivos sendo usados em '/dev/shm/tor-browser/')
 def clean_memory(id):
 
     if id == "tor-browser":
@@ -112,15 +106,17 @@ def clean_memory(id):
         print("Status: " + '\033[1;32m' +  "Clean" + '\033[0;97m')
         time.sleep(3)
 
+# Faz a execução de comandos pre determinados 
 def command_exec(comando):
 
     try:
         subprocess.run(comando, check=True, shell=True)
     except subprocess.CalledProcessError as e:
         print(f"{e}")
-        print("\nPressione uma tecla para continuar...")
+        print("\nPress enter to continue...")
         input()
 
+# Limpa o arquivo .bash_history na home do usuário
 def clean_bash():
 
     print("\nCleaning bash_history file")
@@ -128,6 +124,7 @@ def clean_bash():
     print("\nStatus: bash_history file cleaned\n")
     exit(0)
 
+# Gera e imprime o banner (software logo)
 def presentation():
 
     title = str('\033[0;97m'+"""
