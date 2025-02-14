@@ -50,18 +50,27 @@ read -p "Please enter your network interface name (e.g., eth0, ens33, wlan0): " 
 
 # Setting default policies
 clear
+echo "--------------------------------------"
+echo ""
 echo "Setting default UFW policies..."
+echo ""
 sudo ufw default deny incoming  # Deny all incoming connections by default
 sudo ufw default allow outgoing # Allow all outgoing connections
 
 # Allowing necessary traffic
+echo "--------------------------------------"
+echo ""
 echo "Allowing traffic for SSH, HTTP, and HTTPS..."
+echo ""
 sudo ufw allow ssh           # Allow SSH
 sudo ufw allow http          # Allow HTTP
 sudo ufw allow https         # Allow HTTPS
 
 # Blocking common attack ports
+echo "--------------------------------------"
+echo ""
 echo "Blocking common attack ports..."
+echo ""
 sudo ufw deny 21             # FTP
 sudo ufw deny 23             # Telnet
 sudo ufw deny 25             # SMTP
@@ -69,19 +78,31 @@ sudo ufw deny 3306           # MySQL
 sudo ufw deny 3389           # RDP
 
 # Enabling UFW logging
-echo "Enabling UFW logging..."
-sudo ufw logging on
+echo "--------------------------------------"
+echo ""
+echo "Disabling UFW logging..."
+echo ""
+sudo ufw logging off
 
 # Allowing only HTTP/HTTPS outbound traffic on the specified network interface
+echo "--------------------------------------"
+echo ""
 echo "Allowing only outbound HTTP/HTTPS traffic on interface $NETWORK_INTERFACE..."
+echo ""
 sudo ufw allow out on $NETWORK_INTERFACE to any port 80,443 proto tcp
 
 # Enabling UFW
+echo "--------------------------------------"
+echo ""
 echo "Enabling UFW..."
+echo ""
 sudo ufw enable
 
 # Checking UFW status
+echo "--------------------------------------"
+echo ""
 echo "UFW Status:"
+echo ""
 sudo ufw status verbose
 
 echo "UFW configuration completed successfully!"

@@ -37,7 +37,7 @@
 ## **Contact & Support**
 
 For any questions, troubleshooting, or feature requests, you can reach our support team at:  
-**Email**: support@anonsuite.com
+**Email**: anonsuite@proton.me
 
 ---
 

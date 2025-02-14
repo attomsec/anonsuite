@@ -69,6 +69,8 @@ def cmd_console():
             time.sleep(2)
             command = f"./modules/shell/blind_ufw.sh"
             subprocess.run(command)
+            print("\nPress any key to continue...")
+            input()
     elif option == "0" or option == "exit":
         subprocess.run(f"clear", shell=True)
         print("Exiting...")
