@@ -1,6 +1,8 @@
 # **AnonSuite**
 
-**AnonSuite** is a software designed to make maintaining anonymity easier. It combines various tools and scripts that enhance and streamline the process of staying anonymous online. The software is built with both novice and experienced users in mind, offering a comprehensive set of features for online privacy.
+**AnonSuite** is a software designed to make maintaining anonymity easier, combining various tools and scripts that enhance online privacy, incorporating advanced anti-forensic techniques and methods to completely remove metadata after use, inspired by systems like Tails and Qubes OS, and running scripts in an isolated environment using Firejail for greater security and privacy during execution.
+
+AnonSuite incorporates advanced anti-forensic techniques and methods to completely remove metadata after use, inspired by systems like **Tails** and **Qubes OS**, running scripts in an **isolated manner using Firejail** for enhanced security and privacy during execution.
 
 ---
 
@@ -19,11 +21,27 @@
 
 ---
 
-## **Features**
+## Features
 
-- **Variety of Tools**: Includes scripts for things like browsing anonymity, IP masking, and more.
-- **User-Friendly Interface**: Designed for both beginners and advanced users.
-- **Seamless Experience**: Provides a simple way to ensure your online presence is private.
+### **Tor Browser**
+   - **Run Tor Browser isolated (no audio)**: Run Tor Browser in isolation, without audio, to ensure a more secure and anonymous browsing experience.
+   - **Run Tor Browser isolated with audio (less safe)**: Run Tor Browser isolated with audio, but with a reduced level of security.
+
+### **Mac Spoofing**
+   - **Change device MAC address**: Change your device's MAC address to hide your identity on the network and enhance your privacy.
+   - **MAC Generator on isolated Mullvad Browser (Offline)**: Generate a new MAC address securely while using the Mullvad Browser in an isolated and offline mode.
+
+### **Secure Communication**
+   - **Run Session App fully isolated (amnesia mode)**: Run the Session App in full isolation (amnesia mode) to ensure secure, anonymous communication without leaving traces.
+
+### **Blind UFW**
+   - **Run script to make UFW more secure**: Execute a script to enhance the security of your Uncomplicated Firewall (UFW), strengthening your network protection.
+
+### **Data Protection**
+   - **Encrypt data on safe directory (AES-128)**: Encrypt your data in a secure directory using AES-128 encryption to protect your files.
+   - **Decrypt data on safe directory**: Decrypt your data in a secure directory to access your protected files.
+
+AnonSuite gives you full control over your online privacy and security, providing a range of features from anonymous browsing to data encryption and protection against tracking.
 
 ---
 

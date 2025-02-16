@@ -26,6 +26,14 @@
     },
 
     {
+        "name": "Data protect",
+        "option": [
+            "7. Encrypt data on safe directory (AES-128)",
+            "8. Decrypt data on safe directory"
+        ]
+    },
+
+    {
         "name": "0. Exit",
         "option": [""]
     }

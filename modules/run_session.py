@@ -11,6 +11,7 @@ def session_script_exec():
 def run_session():
 
     print('\033[1;31m' + "Warning:" + '\033[0;33m' + " Session will run in amnesia mode. This means that once you close the app, everything will be permanently deleted! Make sure to back up your recovery key or you won't be able to recover your account (if needed)" + '\033[0;97m')
+    print('\n\033[1;32m' + "Notice:" + '\033[0;33m' + " Session operates on an encrypted Onion routing system, similar to the Tor network. However, it is recommended to use a 'trusted VPN' to prevent your internet service provider from knowing that you are using Session. This is similar to what we do on the Tor network when using Bridges." + '\033[0;97m')
     modules.functions.continue_key()
 
     print("Insert a never used different vendor MAC address to improve anonymity")

@@ -4,21 +4,25 @@
 install_debian() {
     sudo apt update
     sudo apt install -y firejail macchanger selinux-utils wget git ufw iptables
+    pip3 install cryptography
 }
 
 # Função para instalar pacotes no CentOS/RHEL
 install_centos() {
     sudo yum install -y firejail macchanger selinux-utils wget git ufw iptables
+    pip3 install cryptography
 }
 
 # Função para instalar pacotes no Fedora
 install_fedora() {
     sudo dnf install -y firejail macchanger selinux-utils wget git ufw iptables
+    pip3 install cryptography
 }
 
 # Função para instalar pacotes no Arch Linux
 install_arch() {
     sudo pacman -Syu --noconfirm firejail macchanger selinux-utils wget git ufw iptables
+    pip install cryptography
 }
 
 # Função para verificar a distro e chamar a função correspondente

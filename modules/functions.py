@@ -7,6 +7,7 @@ import modules.mac_changer
 import modules.run_session
 import modules.tor_ram_jail
 import signal
+import modules.data_protect
 
 # Pausa e aguarda uma tecla ser pressionada
 def continue_key():
@@ -71,6 +72,10 @@ def cmd_console():
             subprocess.run(command)
             print("\nPress any key to continue...")
             input()
+    elif option == "7":
+        modules.data_protect.protect_data("encrypt")
+    elif option == "8":
+        modules.data_protect.protect_data("decrypt")
     elif option == "0" or option == "exit":
         subprocess.run(f"clear", shell=True)
         print("Exiting...")
@@ -84,10 +89,11 @@ def cmd_console():
          modules.functions.continue_key()
     elif option == "help":
          subprocess.run("less README.md", shell=True)
-
     else:
         print("\nInvalid option. Try again.")
         time.sleep(2)
+
+
 
 # Limpa a memória ram (arquivos sendo usados em '/dev/shm/tor-browser/')
 def clean_memory(id):
