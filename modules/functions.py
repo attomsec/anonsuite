@@ -80,8 +80,7 @@ def cmd_console():
     elif option == "9":
         modules.show_ipaddr.get_ip()
     elif option == "10":
-        subprocess.run("clear", shell=True)
-        command = f"./modules/c/ram_stresser"
+        command = f"./modules/shell/run_stresser.sh"
         command_exec(command)
     elif option == "0" or option == "exit":
         subprocess.run(f"clear", shell=True)
