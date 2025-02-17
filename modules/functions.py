@@ -79,6 +79,10 @@ def cmd_console():
         modules.data_protect.protect_data("decrypt")
     elif option == "9":
         modules.show_ipaddr.get_ip()
+    elif option == "10":
+        subprocess.run("clear", shell=True)
+        command = f"./modules/c/ram_stresser"
+        command_exec(command)
     elif option == "0" or option == "exit":
         subprocess.run(f"clear", shell=True)
         print("Exiting...")
@@ -98,7 +102,7 @@ def cmd_console():
 
 
 
-# Limpa a memória ram (arquivos sendo usados em '/dev/shm/tor-browser/')
+# Limpa a memória ram (arquivos sendo usados em '/dev/shm/tor-browser/' ou '/dev/shm/mullvad-browser/')
 def clean_memory(identity):
 
     if identity == "tor-browser":

@@ -18,6 +18,7 @@ def change_mac():
 
     change_command = f"sudo macchanger --mac={mac} {interface}"
     print("\n")
-    modules.functions.command_exec(change_command)
-    # except subprocess.CalledProcessError as e:
-    #     print("Error trying to change the MAC: " + f"\n{e}")
+    try:
+        modules.functions.command_exec(change_command)
+    except subprocess.CalledProcessError as e:
+        print("Error trying to change the MAC: " + f"\n{e}")

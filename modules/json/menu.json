@@ -41,6 +41,13 @@
     },
 
     {
+        "name": "Cleaning Tools",
+        "option": [
+            "10. Ram memory Stresser (write random data on free ram)"
+        ]
+    },
+
+    {
         "name": "0. Exit",
         "option": [""]
     }

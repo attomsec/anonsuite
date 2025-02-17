@@ -61,11 +61,9 @@ def encrypt_directory(path: str):
     if passphrase == passphrase_confirm:
 
         salt = os.urandom(16)
-        # b64_salt = base64.urlsafe_b64encode(salt)
         key = generate_key_from_passphrase(passphrase, salt)
         b64_key = base64.urlsafe_b64encode(key)
         cipher = Fernet(b64_key)
-        # salt_config = str(os.path.join(os.path.expanduser('~'), ".suite", ".crypt", "salt_config.txt"))
 
         for root, dirs, files in os.walk(path):
 
@@ -98,13 +96,6 @@ def encrypt_directory(path: str):
 
             print("\nYour data is safe now!\n\nPress enter to return to main menu...")
 
-        # with open(salt_config, 'r') as file:
-        #     data = file.read()
-
-
-        # b64_salt_str = b64_salt.decode('utf-8')
-
-        # subprocess.run('sudo rm -rf suite/lock.img', shell=True)
         input()
     else:
         print("\nPassword not match! Try again.")
@@ -130,7 +121,7 @@ def decrypt_file(path: str):
             b64_key = base64.urlsafe_b64encode(key)
             cipher = Fernet(b64_key)
             decrypted_data = cipher.decrypt(encrypted_data)
-    # b64_salt_str = salt_data
+
             with open(file_path, 'wb') as f:
                 f.write(decrypted_data)
 
@@ -138,10 +129,6 @@ def decrypt_file(path: str):
             os.rename(file_path, new_file_path)
             print(f"The {file_path} was decrypted.")
 
-    # with open(anon_img, 'rb') as file:
-    #     crypt_data = file.read()
     print("\nYour files are unprotected.\n\nPress enter to return to the main menu.")
-    # chamar função de montar a imagem no diretorio seguro na home
-    # subprocess.run('sudo rm -rf suite/lock.img.anon', shell=True)
     input()
 
