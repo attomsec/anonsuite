@@ -45,7 +45,19 @@ else
 fi
 
 # Ask the user for the network interface name
+
+
+echo "Warning: The current configurations of your firewall will be reset. Before continuing, AnonSuite will create a backup at $HOME/.suite_backups/ufw/"
+echo "Anyway, ufw will make own backup."
+echo""
+mkdir $HOME/.suite_backups
+mkdir $HOME/.suite_backups/ufw
+sudo cp /etc/ufw/before.rules $HOME/.suite_backups/ufw/ufw_before.rules.bak
+sudo cp /etc/ufw/after.rules $HOME/.suite_backups/ufw/ufw_after.rules.bak
+sudo cp /etc/ufw/before6.rules $HOME.suite_backups/ufw//ufw_before6.rules.bak
+sudo cp /etc/ufw/after6.rules $HOME.suite_backups/ufw//ufw_after6.rules.bak
 echo ""
+sudo ufw reset
 read -p "Please enter your network interface name (e.g., eth0, ens33, wlan0): " NETWORK_INTERFACE
 
 # Setting default policies

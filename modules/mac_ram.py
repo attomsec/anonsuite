@@ -6,65 +6,65 @@ directory = os.path.expanduser("~/Downloads/mullvad-browser/")
 html_file = "modules/html/mac-random.html"
 app_id = "mac-ram"
 
-# Função para verificar se o diretório do tor-browser existe
+# Function to check if the tor-browser directory exists
 def check_directory(directory):
 
     if os.path.isdir(directory):
         subprocess.run(f"clear", shell=True)
-        print(f"Aviso: O diretório '{directory}' existe.\n")
+        print(f"Warning: The directory '{directory}' exists.\n")
         mac_ram()
     else:
-        print(f"O diretório '{directory}' não existe.")
-        print(f"\nAviso: Você deve extrair o Tarball do Mullvad Browser em {directory}")
-        print("O nome da pasta deve ser 'mullvad-browser' !!!")
+        print(f"The directory '{directory}' does not exist.")
+        print(f"\nWarning: You must extract the Mullvad Browser Tarball in {directory}")
+        print("The folder name must be 'mullvad-browser' !!!")
         print("\n")
-        print("Pressione uma tecla para voltar ao menu...")
+        print("Press any key to return to the menu...")
         input()
 
-def exibir_arquivo(arquivo):
+def display_file(file):
 
-    if os.path.exists(arquivo):
-        with open(arquivo, 'r') as file:
+    if os.path.exists(file):
+        with open(file, 'r') as file:
             print(file.read())
     else:
-        print(f"O arquivo {arquivo} não existe.")
+        print(f"The file {file} does not exist.")
 
-def command_exec(comando):
+def command_exec(command):
 
     try:
-        subprocess.run(comando, check=True, shell=True)
+        subprocess.run(command, check=True, shell=True)
     except subprocess.CalledProcessError as e:
         print(f"{e}")
-        print("\nPressione uma tecla para continuar...")
+        print("\nPress any key to continue...")
         input()
 
 def mac_ram():
 
     # subprocess.run(f"clear", shell=True)
 
-    # Copiar o diretório do Mullvad para a memória RAM
-    print("Copiando o Mullvad Browser para a memória RAM...")
+    # Copy the Mullvad directory to RAM
+    print("Copying Mullvad Browser to RAM...")
     subprocess.run(f"cp -r {directory} /dev/shm", shell=True)
     subprocess.run(f"cp -r {html_file} /dev/shm", shell=True)
     subprocess.run(f"rm -rf /dev/shm/mullvad-browser/Browser/distribution/*", shell=True)
-    print("\nStatus: Concluído")
+    print("\nStatus: Completed")
 
     print("\n")
-    print("Executando Mullvad Browser (offline) na memória RAM em failsafe usando o comando firejail ->")
+    print("Running Mullvad Browser (offline) in RAM in failsafe using the firejail command ->")
     print(f"\nfirejail --noprofile --ipc-namespace --machine-id --novideo --nosound --caps.drop=all --private-tmp --net=none /dev/shm/mullvad-browser/Browser/start-mullvad-browser file:///dev/shm/mac-random.html")
     print("\n")
-    print("Pressione enter para executar...")
+    print("Press enter to execute...")
     input()
 
     subprocess.run(f"clear", shell=True)
 
-    # Executar o Mullvad Browser com o firejail
+    # Run Mullvad Browser with firejail
     firejail_command = f"firejail --noprofile --ipc-namespace --machine-id --novideo --nosound --caps.drop=all --private-tmp --net=none /dev/shm/mullvad-browser/Browser/start-mullvad-browser file:///dev/shm/mac-random.html"
     modules.functions.command_exec(firejail_command)
 
     subprocess.run(f"clear", shell=True)
 
-    # Limpar a memória compartilhada
+    # Clear shared memory
     modules.functions.clean_memory(app_id)
 
 def mac_ram_script_exec():
@@ -74,4 +74,3 @@ def mac_ram_script_exec():
     # directory = os.path.expanduser("~/Downloads/mullvad-browser/")
 
     check_directory(directory)
-

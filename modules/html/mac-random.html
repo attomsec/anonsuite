@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gerador de Endereços MAC</title>
+    <title>MAC Address Generator</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -24,45 +24,43 @@
 </head>
 <body>
 
-<h1>Gerador de Endereços MAC Failsafe (sem rastros)</h1>
-<h2>Este script está rodando totalmente Offline e em Sandbox através do Firejail. A interface de rede está bloqueada para este navegador. Você está totalmente seguro.</h2>
-<p><a href="https://github.com/leandroibov/gerador-de-enderecos-mac">Créditos pelo gerador (Github)</a></p>
+<h1>Failsafe MAC Address Generator (no traces)</h1>
+<h2>This script is running completely Offline and in Sandbox via Firejail. The network interface is locked for this browser. You are fully secure.</h2>
+<p><a href="https://github.com/leandroibov/gerador-de-enderecos-mac">Credits for the generator (Github)</a></p>
 </br>
-<h3>Como usar o script:</h3>
-<p>No fim da página, você terá uma lista de mac vendors para escolher, copiar e colar para gerar a lista de MACs na caixa de diálogo abaixo! Clique no botão "Gerar Endereços MAC" e use o MAC que desejar!</p>
-<p>Os MACs spoofados e gerados não podem ser gravados em arquivos e neutralizam os ataques físicos forenses de recuperação de dados e metadados!</p>
-<p>Você deve cadastrar esses MACs ao rodar os scripts que solicitem MAC address para maior anonimidade (ex: Tor-Browser, Macchanger, Session)</p>
-<p>Os MACs spoofados gerados não podem ser interceptados, enviados para algum servidor e guardados por um navegador hackeado, com keylogger etc.</p>
-<p>Depois de terminar, ao desligar o Mullvad Browser, tudo desaparecerá na memória RAM!</p>
+<h3>How to use the script:</h3>
+<p>At the end of the page, you will have a list of MAC vendors to choose, copy, and paste to generate the list of MACs in the dialog box below! Click the "Generate MAC Addresses" button and use the MAC you want!</p>
+<p>The spoofed and generated MACs cannot be written to files and neutralize physical forensics data recovery attacks and metadata!</p>
+<p>You should register these MACs when running scripts that request a MAC address for greater anonymity (e.g., Tor Browser, Macchanger, Session)</p>
+<p>The spoofed MACs generated cannot be intercepted, sent to any server, or stored by a hacked browser, with a keylogger, etc.</p>
+<p>After finishing, when you shut down the Mullvad Browser, everything will disappear in the RAM!</p>
 
+    <p> <a href="#x1">Search in the MAC vendor list to generate the MAC list!</a></p>
 
-
-    <p> <a href="#x1">Pesquisar na lista de mac vendors para gerar lista de macs!</a></p>
-
-    <!-- Formulário para adicionar prefixos -->
+    <!-- Form to add MAC Vendor prefixes -->
     <div id="prefix-form">
-        <h2>Adicionar Prefixos de MAC Vendor</h2>
-        <p>Insira os prefixos e nomes dos fabricantes (um por linha) no formato: <code>XX:XX:XX - Nome do Fabricante</code></p>
+        <h2>Add MAC Vendor Prefixes</h2>
+        <p>Enter the prefixes and manufacturer names (one per line) in the format: <code>XX:XX:XX - Manufacturer Name</code></p>
         <textarea id="prefixes-input" rows="10" cols="50"></textarea><br><br>
-        <button onclick="generateMACs()">Gerar Endereços MAC</button>
+        <button onclick="generateMACs()">Generate MAC Addresses</button>
     </div>
-    
-    <br />
-    <h1>Lista de Mac Vendors</h1>
 
-    <!-- Área para exibir a lista de endereços MAC gerados -->
+    <br />
+    <h1>MAC Vendor List</h1>
+
+    <!-- Area to display the list of generated MAC addresses -->
     <div id="mac-list"></div>
 
     <script>
         function generateMACs() {
             const macListDiv = document.getElementById('mac-list');
-            macListDiv.innerHTML = ''; // Limpar a lista atual
+            macListDiv.innerHTML = ''; // Clear current list
 
-            // Obter os prefixos e fabricantes do input
+            // Get the prefixes and manufacturers from the input
             const prefixesInput = document.getElementById('prefixes-input').value.trim();
             const prefixLines = prefixesInput.split('\n');
             const prefixMap = {};
-            
+
             prefixLines.forEach(line => {
                 const [prefix, name] = line.split(' - ').map(s => s.trim());
                 if (prefix && name) {
@@ -72,13 +70,13 @@
 
             const macs = [];
             const vendorMACs = [];
-            
-            // Gerar 10 endereços MAC aleatórios
+
+            // Generate 10 random MAC addresses
             for (let i = 0; i < 10; i++) {
                 macs.push(generateRandomMAC());
             }
 
-            // Gerar 10 endereços MAC com prefixos fornecidos
+            // Generate 10 MAC addresses with provided prefixes
             Object.keys(prefixMap).forEach(prefix => {
                 for (let i = 0; i < 10; i++) {
                     const mac = `${prefix}:${generateRandomHex()}:${generateRandomHex()}:${generateRandomHex()}`;
@@ -86,7 +84,7 @@
                 }
             });
 
-            // Exibir endereços MAC aleatórios
+            // Display random MAC addresses
             macs.forEach(mac => {
                 const div = document.createElement('div');
                 div.className = 'mac-address';
@@ -94,7 +92,7 @@
                 macListDiv.appendChild(div);
             });
 
-            // Exibir endereços MAC com prefixos fornecidos
+            // Display MAC addresses with provided prefixes
             vendorMACs.forEach(({ mac, name }) => {
                 const div = document.createElement('div');
                 div.className = 'mac-address';
@@ -112,13 +110,12 @@
             return Math.floor(Math.random() * 256).toString(16).padStart(2, '0');
         }
     </script>
-    
 
-
-    
     <br />
-    <h1 id="x1">Lista de prefixos de mac vendors do macchanger oficial</h1>
-<p>Use <strong>Ctrl + F</strong> para abrir a caixa de pesquisa. Digite o nome do vendor, fabricante ou marca e pressione <strong>Enter</strong> para encontrar o que você procura, se estiver presente na página.</p>
+    <h1 id="x1">Official Macchanger MAC Vendor Prefix List</h1>
+<p>Use <strong>Ctrl + F</strong> to open the search box. Type the name of the vendor, manufacturer, or brand and press <strong>Enter</strong> to find what you're looking for, if it's present on the page.</p>
+
+
 
 
 <p>00:00:00 - XEROX CORPORATION</p>

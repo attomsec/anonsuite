@@ -18,7 +18,6 @@ def run_session():
     print('\033[1;90m' + "\nTip: You can generate a MAC address with AnonSuite. Check menu." + '\033[1;97m')
     mac = input("\nNew mac: ")
     print(f"\nChosen MAC: {mac}\n")
-    print("Chosen MAC address: " + mac)
     time.sleep(1)
 
     print("\nChoose network interface to be used by Firejail")
@@ -28,10 +27,10 @@ def run_session():
 
     subprocess.run(f"clear", shell=True)
 
-    print("Executando Session App em modo amnésia na memória RAM em failsafe usando o comando:")
+    print("Running Session App in amnesia mode in RAM in failsafe using the command:")
     print(f"\nfirejail --noprofile --private --private-tmp --ipc-namespaces --nosound --novideo --net={interface} --mac={mac} --appimage ~/Downloads/session/session.AppImage")
     print("\n")
-    print("Pressione enter para executar...")
+    print("Press enter to execute...")
     input()
 
     command = f"firejail --noprofile --private --private-tmp --ipc-namespaces --nosound --novideo --net={interface} --mac={mac} --appimage ~/Downloads/session/session.AppImage"
@@ -45,13 +44,13 @@ def check_directory(directory):
 
     if os.path.isfile(directory):
         subprocess.run(f"clear", shell=True)
-        print(f"Status: O diretório '{directory}' existe.\n")
+        print(f"Status: The directory '{directory}' exists.\n")
         run_session()
     else:
         subprocess.run(f"clear", shell=True)
-        print(f"O diretório '{directory}' não existe.")
-        print("\nAviso: Você deve copiar o AppImage do Session em /home/seu_usuario/Downloads/session/ !!!")
-        print("O nome da pasta que contém o AppImage deve ser 'session' !!!")
+        print(f"The directory '{directory}' does not exist.")
+        print("\nWarning: You must copy the Session AppImage to /home/your_user/Downloads/session/ !!!")
+        print("The folder name containing the AppImage must be 'session' !!!")
         print("\n")
-        print("Pressione uma tecla para voltar ao menu...")
+        print("Press any key to return to the menu...")
         input()

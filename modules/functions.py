@@ -8,6 +8,7 @@ import modules.run_session
 import modules.tor_ram_jail
 import signal
 import modules.data_protect
+import modules.show_ipaddr
 
 # Pausa e aguarda uma tecla ser pressionada
 def continue_key():
@@ -46,7 +47,7 @@ def show_menu():
     with open(f"modules/json/menu.json") as menufile:
         data = json.load(menufile)
         for entry in data:
-            print(f"\n\033[0;32m{entry['name']}\033[0m")
+            print(f"\033[0;32m{entry['name']}\033[0m")
             for opt in entry['option']:
                 print(opt)
 
@@ -76,13 +77,15 @@ def cmd_console():
         modules.data_protect.protect_data("encrypt")
     elif option == "8":
         modules.data_protect.protect_data("decrypt")
+    elif option == "9":
+        modules.show_ipaddr.get_ip()
     elif option == "0" or option == "exit":
         subprocess.run(f"clear", shell=True)
         print("Exiting...")
         clean_bash()
     elif option == "install dependencies":
          subprocess.run(f"clear", shell=True)
-         print("Instalando dependencias... Necesário "+ '\033[0;31m' + "root" + '\033[0;97m' + " !!!\n")
+         print("Installing dependencies... "+ '\033[0;31m' + "Root" + '\033[0;97m' + " access required.\n")
          time.sleep(2)
          command = f"./modules/shell/install_dependencies.sh"
          command_exec(command)
@@ -96,16 +99,16 @@ def cmd_console():
 
 
 # Limpa a memória ram (arquivos sendo usados em '/dev/shm/tor-browser/')
-def clean_memory(id):
+def clean_memory(identity):
 
-    if id == "tor-browser":
+    if identity == "tor-browser":
         subprocess.run(f"clear", shell=True)
         print("Cleaning shared memory (ram, failsafe)...")
         print("\n")
         subprocess.run("rm -rf /dev/shm/tor-browser/", shell=True)
         print("Status: " + '\033[1;32m' +  "Clean" + '\033[0;97m')
         time.sleep(3)
-    elif id == "mac-ram":
+    elif identity == "mac-ram":
         subprocess.run(f"clear", shell=True)
         print("Cleaning shared memory (ram, failsafe)...")
         print("\n")
@@ -136,11 +139,11 @@ def clean_bash():
 def presentation():
 
     title = str('\033[0;97m'+"""
- ▗▄▖ ▗▖  ▗▖ ▗▄▖ ▗▖  ▗▖ ▗▄▄▖▗▖ ▗▖▗▄▄▄▖▗▄▄▄▖▗▄▄▄▖
-▐▌ ▐▌▐▛▚▖▐▌▐▌ ▐▌▐▛▚▖▐▌▐▌   ▐▌ ▐▌  █    █  ▐▌   
-▐▛▀▜▌▐▌ ▝▜▌▐▌ ▐▌▐▌ ▝▜▌ ▝▀▚▖▐▌ ▐▌  █    █  ▐▛▀▀▘
-▐▌ ▐▌▐▌  ▐▌▝▚▄▞▘▐▌  ▐▌▗▄▄▞▘▝▚▄▞▘▗▄█▄▖  █  ▐▙▄▄▖
-                .:stay anon:.""")
+ _           __            
+|_|__  _ __ (_     o _|_ _ 
+| || |(_)| |__)|_| |  |_(/_
+
+      .:stay anon:.""")
     
     welcome = title
     print(welcome)

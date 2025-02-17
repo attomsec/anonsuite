@@ -1,75 +1,75 @@
 #!/bin/bash -p
 
-# Função para instalar pacotes no Ubuntu/Debian
+# Function to install packages on Ubuntu/Debian
 install_debian() {
     sudo apt update
-    sudo apt install -y firejail macchanger selinux-utils wget git ufw iptables
+    sudo apt install -y firejail macchanger selinux-utils wget git ufw iptables curl
     pip3 install cryptography
 }
 
-# Função para instalar pacotes no CentOS/RHEL
+# Function to install packages on CentOS/RHEL
 install_centos() {
-    sudo yum install -y firejail macchanger selinux-utils wget git ufw iptables
+    sudo yum install -y firejail macchanger selinux-utils wget git ufw iptables curl
     pip3 install cryptography
 }
 
-# Função para instalar pacotes no Fedora
+# Function to install packages on Fedora
 install_fedora() {
-    sudo dnf install -y firejail macchanger selinux-utils wget git ufw iptables
+    sudo dnf install -y firejail macchanger selinux-utils wget git ufw iptables curl
     pip3 install cryptography
 }
 
-# Função para instalar pacotes no Arch Linux
+# Function to install packages on Arch Linux
 install_arch() {
-    sudo pacman -Syu --noconfirm firejail macchanger selinux-utils wget git ufw iptables
+    sudo pacman -Syu --noconfirm firejail macchanger selinux-utils wget git ufw iptables curl
     pip install cryptography
 }
 
-# Função para verificar a distro e chamar a função correspondente
+# Function to check the distro and call the corresponding function
 install_dependencies() {
-    # Verifica a distribuição
+    # Check the distribution
     if [[ -f /etc/os-release ]]; then
         . /etc/os-release
         DISTRO_NAME=$ID
         DISTRO_VERSION=$VERSION_ID
     else
-        echo "Não foi possível determinar a distribuição."
+        echo "Could not determine the distribution."
         exit 1
     fi
 
-    # Instala pacotes conforme a distribuição
+    # Install packages based on the distribution
     case "$DISTRO_NAME" in
         ubuntu|debian)
-            echo "Detectado Ubuntu/Debian. Instalando pacotes..."
+            echo "Ubuntu/Debian detected. Installing packages..."
             echo ""
             install_debian
             ;;
         centos|rhel)
-            echo "Detectado CentOS/RHEL. Instalando pacotes..."
+            echo "CentOS/RHEL detected. Installing packages..."
             echo ""
             install_centos
             ;;
         fedora)
-            echo "Detectado Fedora. Instalando pacotes..."
+            echo "Fedora detected. Installing packages..."
             echo ""
             install_fedora
             ;;
         arch)
-            echo "Detectado Arch Linux. Instalando pacotes..."
+            echo "Arch Linux detected. Installing packages..."
             echo ""
             install_arch
             ;;
         *)
-            echo "Distribuição não suportada ou desconhecida."
+            echo "Unsupported or unknown distribution."
             echo ""
             exit 1
             ;;
     esac
 }
 
-# Executa a instalação
+# Run the installation
 install_dependencies
 
-# Mensagem de conclusão
+# Completion message
 echo ""
-echo "Instalação concluída com sucesso!"
+echo "Installation completed successfully!"

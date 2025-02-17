@@ -3,44 +3,44 @@ import subprocess
 import time
 import modules.functions
 
-diretorio = os.path.expanduser("~/Downloads/tor-browser/")
+directory = os.path.expanduser("~/Downloads/tor-browser/")
 app_id = "tor-browser"
 
-# Função para verificar se o diretório do tor-browser existe
-def check_directory(diretorio, opcao):
+# Function to check if the tor-browser directory exists
+def check_directory(directory, option):
 
-    if os.path.isdir(diretorio):
+    if os.path.isdir(directory):
         subprocess.run(f"clear", shell=True)
-        print(f"Aviso: O diretório '{diretorio}' existe.\n")
-        ram_jail(opcao)
+        print(f"Warning: The directory '{directory}' exists.\n")
+        ram_jail(option)
     else:
-        print(f"O diretório '{diretorio}' não existe.")
-        print(f"\nAviso: Você deve extrair o Tarball do Tor Browser em {diretorio}")
-        print("O nome da pasta deve ser 'tor-browser' !!!")
+        print(f"The directory '{directory}' does not exist.")
+        print(f"\nWarning: You need to extract the Tor Browser Tarball in {directory}")
+        print("The folder name must be 'tor-browser' !!!")
         print("\n")
-        print("Pressione uma tecla para voltar ao menu...")
+        print("Press any key to return to the menu...")
         input()
 
-def exibir_arquivo(arquivo):
+def display_file(file):
 
-    if os.path.exists(arquivo):
-        with open(arquivo, 'r') as file:
+    if os.path.exists(file):
+        with open(file, 'r') as file:
             print(file.read())
     else:
-        print(f"O arquivo {arquivo} não existe.")
+        print(f"The file {file} does not exist.")
 
-def command_exec(comando):
+def command_exec(command):
 
     try:
-        subprocess.run(comando, check=True, shell=True)
+        subprocess.run(command, check=True, shell=True)
     except subprocess.CalledProcessError as e:
         print(f"{e}")
-        print("\nPressione uma tecla para continuar...")
+        print("\nPress any key to continue...")
         input()
 
-def ram_jail(opcao):
+def ram_jail(option):
 
-    opcao = opcao
+    option = option
 
     print("Insert a never used different vendor MAC address to improve anonymity")
     print('\033[1;90m' + "\nTip: You can generate a MAC address with AnonSuite. Check menu." + '\033[1;97m')
@@ -52,52 +52,51 @@ def ram_jail(opcao):
     print(f"\nChosen interface: {interface}\n")
     time.sleep(1)
 
-    # Copiar o diretório do Tor para a memória RAM
-    print("\nCopiando o Tor Browser para a memória RAM...")
-    subprocess.run(f"cp -r {diretorio} /dev/shm", shell=True)
-    print("\nStatus: Concluído")
+    # Copy the Tor directory to RAM
+    print("\nCopying Tor Browser to RAM...")
+    subprocess.run(f"cp -r {directory} /dev/shm", shell=True)
+    print("\nStatus: Completed")
     time.sleep(1)
 
     subprocess.run(f"clear", shell=True)
 
-    if opcao == "1":
-        print("Executando tor browser (sem áudio) na memória RAM em failsafe usando o comando:")
+    if option == "1":
+        print("Running Tor Browser (no audio) in RAM in failsafe mode with the command:")
         print(f"\nfirejail --noprofile --ipc-namespace --machine-id --novideo --nosound --caps.drop=all --private-tmp --net={interface} --mac={mac} /dev/shm/tor-browser/Browser/start-tor-browser;")
         print("\n")
-        print("Pressione enter para executar...")
+        print("Press enter to execute...")
         input()
 
         subprocess.run(f"clear", shell=True)
 
-        # Executar o Tor Browser com o firejail
+        # Run the Tor Browser with firejail
         firejail_command = f"firejail --noprofile --ipc-namespace --machine-id --novideo --nosound --caps.drop=all --private-tmp --net={interface} --mac={mac} /dev/shm/tor-browser/Browser/start-tor-browser"
         modules.functions.command_exec(firejail_command)
 
-    elif opcao == "2":
-        print("Executando tor browser (com áudio) na memória RAM em failsafe usando o comando:")
+    elif option == "2":
+        print("Running Tor Browser (with audio) in RAM in failsafe mode with the command:")
         print(f"\nfirejail --noprofile --ipc-namespace --machine-id --caps.drop=all --private-tmp --net={interface} --mac={mac} /dev/shm/tor-browser/Browser/start-tor-browser;")
         print("\n")
-        print("Pressione enter para executar...")
+        print("Press enter to execute...")
         input()
 
         subprocess.run(f"clear", shell=True)
 
-        # Executar o Tor Browser com o firejail
+        # Run the Tor Browser with firejail
         firejail_command = f"firejail --noprofile --ipc-namespace --machine-id --caps.drop=all --private-tmp --net={interface} --mac={mac} /dev/shm/tor-browser/Browser/start-tor-browser"
         command_exec(firejail_command)
     else:
-        print("Opção inválida")
+        print("Invalid option")
 
     subprocess.run(f"clear", shell=True)
 
-    # Limpar a memória compartilhada
+    # Clear shared memory
     modules.functions.clean_memory(app_id)
 
-def tor_script_exec(opcao):
+def tor_script_exec(option):
 
     subprocess.run(f"clear", shell=True)
 
-    # diretorio = os.path.expanduser("~/Downloads/tor-browser/")
+    # directory = os.path.expanduser("~/Downloads/tor-browser/")
 
-    check_directory(diretorio, opcao)
-
+    check_directory(directory, option)
