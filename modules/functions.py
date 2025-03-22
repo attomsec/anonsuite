@@ -1,7 +1,6 @@
 import time
 import json
 import subprocess
-import modules.functions
 import modules.mac_ram
 import modules.mac_changer
 import modules.run_session
@@ -13,7 +12,7 @@ import modules.show_ipaddr
 # Pausa e aguarda uma tecla ser pressionada
 def continue_key():
 
-    print("\nPressione uma tecla para continuar...")
+    print("\nPress any key to continue...")
     input()
 
 # Quando detecta CTRL + C deleta o arquivo .bash_history e fecha o AnonSuite
@@ -23,7 +22,8 @@ def secure_exit(signal, frame):
     print("Ctrl + C detected. Exiting...")
     print('\033[1;31m' + "\nCleaning bash_history file")
     subprocess.run("echo -n > ~/.bash_history", shell=True)
-    print('\033[1;33m' + "\nStatus: "+ '\033[1;32m' + "bash_history file cleaned\n")
+    subprocess.run("echo -n > ~/.histfile")
+    print('\033[1;33m' + "\nStatus: "+ '\033[1;32m' + ".bash_history file cleaned\n.histfile cleaned")
     exit(0)
 
 # Captura a combinação CTRL + C e executa a função 'secure_exit()'
@@ -66,13 +66,8 @@ def cmd_console():
     elif option == "5":
             modules.run_session.session_script_exec()
     elif option == "6":
-            subprocess.run(f"clear")
-            print("AnonSuite is making UFW more secure. Please wait and follow the instructions ahead.")
-            time.sleep(2)
             command = f"./modules/shell/blind_ufw.sh"
             subprocess.run(command)
-            print("\nPress any key to continue...")
-            input()
     elif option == "7":
         modules.data_protect.protect_data("encrypt")
     elif option == "8":
