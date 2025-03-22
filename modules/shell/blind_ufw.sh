@@ -13,6 +13,9 @@ detect_distro() {
 # Detecting the distribution
 DISTRO=$(detect_distro)
 
+clear
+echo "AnonSuite is making UFW more secure. Please wait and follow the instructions ahead."
+echo ""
 # Updating packages based on the distribution
 if [[ "$DISTRO" == "ubuntu" || "$DISTRO" == "debian" ]]; then
     echo ""
@@ -118,3 +121,6 @@ echo ""
 sudo ufw status verbose
 
 echo "UFW configuration completed successfully!"
+
+echo "Press any key to continue..."
+input

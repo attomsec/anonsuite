@@ -5,9 +5,8 @@ def main():
 
     subprocess.run("clear", shell=True)
     print("Initializing... \n")
-    print("Bem-Vindo ao " + '\033[1;32m' + "AnonSuite" + '\033[0;97m')
-    # functions.presentation()
-    print('\033[1;31m' + "\nAviso: "+ '\033[0;97m' + "No menu principal, rode o comando 'install dependencies' para instalar todas as dependencias necessárias.")
+    print("Welcome to " + '\033[1;32m' + "AnonSuite" + '\033[0;97m')
+    print('\033[1;31m' + "\nWarning: "+ '\033[0;97m' + "From the main menu, run the 'install dependencies' command to install all required dependencies.")
     functions.continue_key()
 
 
