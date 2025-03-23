@@ -1,4 +1,4 @@
-
+import getpass
 import os  # Manipulação de diretórios e arquivos
 import base64  # Codificação/decodificação da chave
 import subprocess
@@ -13,11 +13,11 @@ from cryptography.fernet import Fernet  # Criptografia e descriptografia com Fer
 def protect_data(opt):
 
     if opt == "encrypt":
-        subprocess.run("clear", shell=True)
+        os.system("clear")
         print('\033[1;31m' + "Warning:" + '\033[0;33m' + "\n\nAnonSuite will encrypt all files within the directory you specify. You should place all the files you want to encrypt in a dedicated folder." + '\033[0;97m')
 
     if opt == "decrypt":
-        subprocess.run("clear", shell=True)
+        os.system("clear")
         print('\033[1;31m' + "Warning:" + '\033[0;33m' + "\n\nAnonSuite will decrypt all files within the directory you specify. You should place all the files you want to encrypt in a dedicated folder." + '\033[0;97m')
 
     path = str(input("\n\nInsert directory path: "))
@@ -25,15 +25,15 @@ def protect_data(opt):
     if os.path.isdir(path):
 
         if opt == "encrypt":
-            subprocess.run("clear", shell=True)
+            os.system("clear")
             encrypt_directory(path)
         if opt == "decrypt":
-            subprocess.run("clear", shell=True)
+            os.system("clear")
             decrypt_file(path)
     else:
         print("\nInvalid path. Try again.")
         time.sleep(2)
-        protect_data(opt)
+        return protect_data(opt)
 
 def generate_key_from_passphrase(passphrase: str, salt: bytes) -> bytes:
 
@@ -50,8 +50,8 @@ def generate_key_from_passphrase(passphrase: str, salt: bytes) -> bytes:
 def encrypt_directory(path: str):
 
     path = path
-    passphrase = str(input("\nInsert a strong password: "))
-    passphrase_confirm = str(input("Confirm password: "))
+    passphrase = getpass.getpass("\nInsert a strong password: ")
+    passphrase_confirm = getpass.getpass("Confirm password: ")
     abort = False
 
     if passphrase == passphrase_confirm:
@@ -61,11 +61,11 @@ def encrypt_directory(path: str):
         b64_key = base64.urlsafe_b64encode(key)
         cipher = Fernet(b64_key)
 
-        subprocess.run("clear", shell=True)
+        os.system("clear")
         option = input('\033[1;31m' + "Warning:" + '\033[0;33m' + "\n\nThis action is irreversible. Do you wish to continue? (y/N)" + '\033[0;97m')
         print("")
 
-        if option == "y" or option == "Y":
+        if option.lower() == "y":
             for root, dirs, files in os.walk(path):
 
                 for fi in files:
@@ -87,17 +87,16 @@ def encrypt_directory(path: str):
         else:
             print("")
             print("Aborting...")
+            print("\nYour data was not encrypted and still unsafe!\n\nPress enter to return to main menu...")
+            input()
             abort = True
     else:
         print("\nPassword not match! Try again.")
         time.sleep(2)
-        subprocess.run("clear", shell=True)
-        protect_data("encrypt")
+        os.system("clear")
+        return protect_data("encrypt")
 
-    if abort == True:
-        print("\nYour data was not encrypted and still unsafe!\n\nPress enter to return to main menu...")
-        input()
-    else:
+    if not abort:
         print("\nYour data is now encrypted! Keep your password safe. Stay anon.")
         print("\n\nPress enter to return to main menu...")
         input()
@@ -105,9 +104,9 @@ def encrypt_directory(path: str):
 def decrypt_file(path: str):
 
     path = path
-    passphrase = str(input("Insert your password: "))
+    os.system("clear")
+    passphrase = getpass.getpass("Insert your password: ")
     print("")
-
     try:
         for root, dirs, files in os.walk(path):
             for fi in files:
@@ -129,7 +128,9 @@ def decrypt_file(path: str):
                 print(f"The {file_path} was decrypted. Is now {new_file_path}")
 
     except (cryptography.fernet.InvalidToken, TypeError):
-        print("\nInvalid password ! Please try again.")
+        print("Invalid password ! Please try again.")
+        time.sleep(2)
+        return decrypt_file(path)
 
     print("\n\nPress enter to return to the main menu.")
     input()

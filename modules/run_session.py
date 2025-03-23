@@ -25,7 +25,7 @@ def run_session():
     print("\nChosen interface: " + interface)
     time.sleep(1)
 
-    subprocess.run(f"clear", shell=True)
+    os.system("clear")
 
     print("Running Session App in amnesia mode in RAM in failsafe using the command:")
     print(f"\nfirejail --noprofile --private --private-tmp --ipc-namespaces --nosound --novideo --net={interface} --mac={mac} --appimage ~/Downloads/session/session.AppImage")
@@ -36,18 +36,18 @@ def run_session():
     command = f"firejail --noprofile --private --private-tmp --ipc-namespaces --nosound --novideo --net={interface} --mac={mac} --appimage ~/Downloads/session/session.AppImage"
     modules.functions.command_exec(command)
 
-    subprocess.run(f"clear", shell=True)
+    os.system("clear")
     print("Session App " + '\033[1;31m' + "killed." + '\033[0;97m' + " Contracted amnesia.")
     time.sleep(3)
 
 def check_directory(directory):
 
     if os.path.isfile(directory):
-        subprocess.run(f"clear", shell=True)
+        os.system("clear")
         print(f"Status: The directory '{directory}' exists.\n")
         run_session()
     else:
-        subprocess.run(f"clear", shell=True)
+        os.system("clear")
         print(f"The directory '{directory}' does not exist.")
         print("\nWarning: You must copy the Session AppImage to /home/your_user/Downloads/session/ !!!")
         print("The folder name containing the AppImage must be 'session' !!!")

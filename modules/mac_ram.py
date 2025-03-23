@@ -10,7 +10,7 @@ app_id = "mac-ram"
 def check_directory(directory):
 
     if os.path.isdir(directory):
-        subprocess.run(f"clear", shell=True)
+        os.system("clear")
         print(f"Warning: The directory '{directory}' exists.\n")
         mac_ram()
     else:
@@ -40,7 +40,7 @@ def command_exec(command):
 
 def mac_ram():
 
-    # subprocess.run(f"clear", shell=True)
+    # os.system("clear")
 
     # Copy the Mullvad directory to RAM
     print("Copying Mullvad Browser to RAM...")
@@ -56,20 +56,20 @@ def mac_ram():
     print("Press enter to execute...")
     input()
 
-    subprocess.run(f"clear", shell=True)
+    os.system("clear")
 
     # Run Mullvad Browser with firejail
     firejail_command = f"firejail --noprofile --ipc-namespace --machine-id --novideo --nosound --caps.drop=all --private-tmp --net=none /dev/shm/mullvad-browser/Browser/start-mullvad-browser file:///dev/shm/mac-random.html"
     modules.functions.command_exec(firejail_command)
 
-    subprocess.run(f"clear", shell=True)
+    os.system("clear")
 
     # Clear shared memory
     modules.functions.clean_memory(app_id)
 
 def mac_ram_script_exec():
 
-    subprocess.run(f"clear", shell=True)
+    os.system("clear")
 
     # directory = os.path.expanduser("~/Downloads/mullvad-browser/")
 
