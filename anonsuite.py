@@ -1,18 +1,28 @@
+import json
+import os
+import time
+
 from modules import functions
 import subprocess
 
 def main():
 
-    subprocess.run("clear", shell=True)
-    print("Initializing... \n")
-    print("Welcome to " + '\033[1;32m' + "AnonSuite" + '\033[0;97m')
-    print('\033[1;31m' + "\nWarning: "+ '\033[0;97m' + "From the main menu, run the 'install dependencies' command to install all required dependencies.")
-    functions.continue_key()
+    # Abre o arquivo info.json
+    with open("modules/json/info.json") as info:
+        data = json.load(info)
 
+    try:
+        functions.splash_screen()
 
-    while True:
-        functions.show_menu()
-        functions.cmd_console()
+        while True:
+            functions.show_menu(data)
+            functions.cmd_console()
+    except Exception:
+        os.system("clear")
+        print("!!! Error. Exiting. !!!")
+        time.sleep(2)
+        functions.clean_bash()
+
 
 if __name__ == "__main__":
     main()

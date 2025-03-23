@@ -10,7 +10,7 @@ app_id = "tor-browser"
 def check_directory(directory, option):
 
     if os.path.isdir(directory):
-        subprocess.run(f"clear", shell=True)
+        os.system("clear")
         print(f"Warning: The directory '{directory}' exists.\n")
         ram_jail(option)
     else:
@@ -58,7 +58,7 @@ def ram_jail(option):
     print("\nStatus: Completed")
     time.sleep(1)
 
-    subprocess.run(f"clear", shell=True)
+    os.system("clear")
 
     if option == "1":
         print("Running Tor Browser (no audio) in RAM in failsafe mode with the command:")
@@ -67,7 +67,7 @@ def ram_jail(option):
         print("Press enter to execute...")
         input()
 
-        subprocess.run(f"clear", shell=True)
+        os.system("clear")
 
         # Run the Tor Browser with firejail
         firejail_command = f"firejail --noprofile --ipc-namespace --machine-id --novideo --nosound --caps.drop=all --private-tmp --net={interface} --mac={mac} /dev/shm/tor-browser/Browser/start-tor-browser"
@@ -80,7 +80,7 @@ def ram_jail(option):
         print("Press enter to execute...")
         input()
 
-        subprocess.run(f"clear", shell=True)
+        os.system("clear")
 
         # Run the Tor Browser with firejail
         firejail_command = f"firejail --noprofile --ipc-namespace --machine-id --caps.drop=all --private-tmp --net={interface} --mac={mac} /dev/shm/tor-browser/Browser/start-tor-browser"
@@ -88,14 +88,14 @@ def ram_jail(option):
     else:
         print("Invalid option")
 
-    subprocess.run(f"clear", shell=True)
+    os.system("clear")
 
     # Clear shared memory
     modules.functions.clean_memory(app_id)
 
 def tor_script_exec(option):
 
-    subprocess.run(f"clear", shell=True)
+    os.system("clear")
 
     # directory = os.path.expanduser("~/Downloads/tor-browser/")
 

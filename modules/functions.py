@@ -1,3 +1,4 @@
+import os
 import time
 import json
 import subprocess
@@ -15,28 +16,32 @@ def continue_key():
     print("\nPress any key to continue...")
     input()
 
-# Quando detecta CTRL + C deleta o arquivo .bash_history e fecha o AnonSuite
+# Quando detecta CTRL + C e chama a função 'clean_exit'
 def secure_exit(signal, frame):
+    os.system("clear")
+    print("CTRL + C detected !!!")
+    time.sleep(2)
+    clean_bash()
 
-    subprocess.run(f"clear")
-    print("Ctrl + C detected. Exiting...")
-    print('\033[1;31m' + "\nCleaning bash_history file")
+# # Limpa o arquivo .bash_history na home do usuário
+def clean_bash():
+
+    os.system("clear")
+    print("Exiting...")
+    print('\033[1;31m' + "\nCleaning .bash_history file")
+    print('\033[1;31m' + "\nCleaning .histfile")
     subprocess.run("echo -n > ~/.bash_history", shell=True)
-    subprocess.run("echo -n > ~/.histfile")
-    print('\033[1;33m' + "\nStatus: "+ '\033[1;32m' + ".bash_history file cleaned\n.histfile cleaned")
+    subprocess.run("echo -n > ~/.histfile", shell=True)
+    print('\033[1;33m' + "\nStatus:\n " + '\033[1;32m' + "\n.bash_history file cleaned\n.histfile cleaned\n")
     exit(0)
 
 # Captura a combinação CTRL + C e executa a função 'secure_exit()'
 signal.signal(signal.SIGINT, secure_exit)
 
-def show_menu():
-
-    # Abre o arquivo info.json
-    with open(f"modules/json/info.json") as info:
-        data = json.load(info)
+def show_menu(data):
 
     # Limpa o terminal
-    subprocess.run("clear", shell=True)
+    os.system("clear")
 
     # Exibe o banner, versão e author 
     presentation()
@@ -55,7 +60,7 @@ def show_menu():
 def cmd_console():
 
     print(13*"----")
-    option = input('\033[1;33m' + "cmd: " + '\033[0;97m').strip()
+    option = str(input('\033[1;33m' + "cmd: " + '\033[0;97m'))
         
     if option == "1" or option == "2":
             modules.tor_ram_jail.tor_script_exec(option)
@@ -78,8 +83,6 @@ def cmd_console():
         command = f"./modules/shell/run_stresser.sh"
         command_exec(command)
     elif option == "0" or option == "exit":
-        subprocess.run(f"clear", shell=True)
-        print("Exiting...")
         clean_bash()
     elif option == "install dependencies":
          subprocess.run(f"clear", shell=True)
@@ -93,8 +96,6 @@ def cmd_console():
     else:
         print("\nInvalid option. Try again.")
         time.sleep(2)
-
-
 
 # Limpa a memória ram (arquivos sendo usados em '/dev/shm/tor-browser/' ou '/dev/shm/mullvad-browser/')
 def clean_memory(identity):
@@ -125,13 +126,14 @@ def command_exec(comando):
         print("\nPress enter to continue...")
         input()
 
-# Limpa o arquivo .bash_history na home do usuário
-def clean_bash():
 
-    print("\nCleaning bash_history file")
-    subprocess.run("echo -n > ~/.bash_history", shell=True)
-    print("\nStatus: bash_history file cleaned\n")
-    exit(0)
+def splash_screen():
+
+    os.system("clear")
+    print("Initializing... \n")
+    print("Welcome to " + '\033[1;32m' + "AnonSuite" + '\033[0;97m')
+    print('\033[1;31m' + "\nWarning: " + '\033[0;97m' + "From the main menu, run the 'install dependencies' command to install all required dependencies.")
+    continue_key()
 
 # Gera e imprime o banner (software logo)
 def presentation():

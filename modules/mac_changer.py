@@ -4,7 +4,7 @@ import modules.functions
 
 
 def change_mac():
-    subprocess.run(f"clear", shell=True)
+    os.system("clear")
 
     mac = input("Enter the desired MAC: ")
     print(f"\nThe chosen MAC was: {mac}\n")
